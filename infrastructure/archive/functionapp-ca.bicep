@@ -1,3 +1,6 @@
+// Taken from here:
+// https://github.com/Azure/azure-functions-on-container-apps/blob/main/samples/ACAKindfunctionapp/main.bicep
+
 @description('The Azure region to which the resource will be deployed.')
 param location string = 'uksouth'
 
@@ -27,6 +30,21 @@ param maxReplicas int = 3
 
 @description('Specifies the Functions runtime')
 param functionsRuntime string = 'powershell'
+
+@description('Specifies the name of the application insights.')
+param appInsightsName string = 'appi-submit-${environmentShortName}-${substring(location,0,3)}-01'
+
+@description('Create a log analytics workspace for the container app environment.')
+resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
+  name: containerAppLogAnalyticsName
+  location: location
+  properties: {
+    retentionInDays: 30
+    sku: {
+      name: 'PerGB2018'
+    }
+  }
+}
 
 /*
 @description('Create a container app environment.')
@@ -70,7 +88,6 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2024-01-01' existing 
   name: 'stukssubmitapifuncdev01'
 }
 
-/*
 @description('Create an application insights resource for the function app.')
 resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   name: appInsightsName
@@ -81,7 +98,9 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
     WorkspaceResourceId: logAnalytics.id
   }
 }
-*/
+
+
+var azureWebJobStorageConnectionString = 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccount.listKeys().keys[0].value};EndpointSuffix=core.windows.net'
 
 @description('Create a native functions container app.')
 resource functionsContainerApp 'Microsoft.App/containerApps@2024-10-02-preview' = {
@@ -114,6 +133,7 @@ resource functionsContainerApp 'Microsoft.App/containerApps@2024-10-02-preview' 
         }*/
       ]
     }
+
     template: {
       containers: [
         {
