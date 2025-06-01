@@ -19,7 +19,7 @@ module serviceBusNamespace 'br/public:avm/res/service-bus/namespace:0.14.1' = {
   name: 'servicebus-queue-${environmentShortName}-${locationShortName}'
   params: {
     // Required parameters
-    name: 'sbns-queue-${environmentShortName}-${locationShortName}-01'
+    name: 'sbns-queue-${environmentShortName}-${locationShortName}-02'
     // Non-required parameters
     authorizationRules: []
     diagnosticSettings: []
@@ -46,6 +46,7 @@ module serviceBusNamespace 'br/public:avm/res/service-bus/namespace:0.14.1' = {
             roleDefinitionIdOrName: 'Azure Service Bus Data Sender'
           }
         ]
+        /*
         subscriptions: [
           {
             name: 'sbts-request-fulfilment-${environmentShortName}-${locationShortName}-01'
@@ -62,8 +63,28 @@ module serviceBusNamespace 'br/public:avm/res/service-bus/namespace:0.14.1' = {
             ]
           }
         ]
+        */
+        authorizationRules: []
+      }
+      {
+        name: 'sbt-request-submission-outbox-${environmentShortName}-${locationShortName}-01'
+        // roleAssignments: []
         authorizationRules: []
       }
     ]
   }
 }
+
+resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = {
+  name: 'kv-queue-${environmentShortName}-${locationShortName}-01'
+}
+
+resource serviceBusStateConnectionString 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
+  name: 'pubsub-queue-state-connection-string'
+  parent: keyVault
+  properties: {
+    value: serviceBusNamespace.outputs.serviceBusEndpoint
+    contentType: 'application/text'
+  }
+}
+// secretref: 'pubsub-queue-state-connection-string'

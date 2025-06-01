@@ -48,6 +48,22 @@ resource daprCosmosDbComponent 'Microsoft.App/managedEnvironments/daprComponents
         name: 'collection'
         value: 'cosmos-queue-state-${environmentShortName}-${locationShortName}-01'
       }
+      {
+        name: 'outboxPublishPubsub'
+        value: 'dapr-conf-submit-queue-transoutbox-pubsub'
+      }
+      {
+        name: 'outboxPublishTopic'
+        value: 'sbt-request-submission-${environmentShortName}-${locationShortName}-01'
+      }
+      {
+        name: 'outboxPubsub'
+        value: 'cosmos-queue-state-${environmentShortName}-${locationShortName}-01'
+      }
+      {
+        name: 'outboxDiscardWhenMissingState'
+        value: 'false'
+      }
     ]
     scopes: [
       functionContainerApp.name
@@ -58,3 +74,14 @@ resource daprCosmosDbComponent 'Microsoft.App/managedEnvironments/daprComponents
     version: '1.0'
   }
 }
+
+/*
+  - name: outboxPublishPubsub # Required
+    value: "mypubsub"
+  - name: outboxPublishTopic # Required
+    value: "newOrder"
+  - name: outboxPubsub # Optional
+    value: "myOutboxPubsub"
+  - name: outboxDiscardWhenMissingState #Optional. Defaults to false
+    value: false
+*/
