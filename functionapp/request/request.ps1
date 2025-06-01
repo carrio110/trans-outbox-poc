@@ -21,17 +21,16 @@ class AmpRequest {
     AmpRequest([hashtable]$Properties) { $this.Init($Properties) }
 
     # Method to submit the request to the queue
-    [object] Submit() {
+    [object] Submit([object]$Request) {
 
         try {
             $response = Invoke-RestMethod 
                 -Method Post 
                 -ContentType 'application/json'
                 -Uri 'http://localhost:3601/v1.0/state/statestore/transaction'
-                -Body '{"operations": [{"operation":"upsert", "request": {"key": "order_1", "value": "250"}}, {"operation":"delete", "request": {"key": "order_2"}}]}'
-                -ErrorAction stop
-            
-            return $response
+                -Body $Request
+                -ErrorAction stop       
+            return $response.content
         }
         catch {
             $response = "An error occurred while submitting the request to the queue."
@@ -40,13 +39,6 @@ class AmpRequest {
         finally {
             <#Do this after the try block regardless of whether an exception occurred or not#>
             
-        }
-        
+        }   
     }
-
-    [object] GetAzAppConfigValues() {
-        $builder = FunctionsApplication.CreateBuilder(args)
-        $builder.Configuration.AddAzureAppConfiguration()
-    }
-
 }

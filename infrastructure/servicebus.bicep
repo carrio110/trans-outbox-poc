@@ -46,24 +46,6 @@ module serviceBusNamespace 'br/public:avm/res/service-bus/namespace:0.14.1' = {
             roleDefinitionIdOrName: 'Azure Service Bus Data Sender'
           }
         ]
-        /*
-        subscriptions: [
-          {
-            name: 'sbts-request-fulfilment-${environmentShortName}-${locationShortName}-01'
-            rules: [
-              {
-                name: 'rule-due-to-schedule'
-                filterType: 'SqlFilter'
-                sqlFilter: {
-                  sqlExpression: ''
-                  requiresPreprocessing: false
-                }
-
-              }
-            ]
-          }
-        ]
-        */
         authorizationRules: []
       }
       {
@@ -87,4 +69,3 @@ resource serviceBusStateConnectionString 'Microsoft.KeyVault/vaults/secrets@2022
     contentType: 'application/text'
   }
 }
-// secretref: 'pubsub-queue-state-connection-string'
