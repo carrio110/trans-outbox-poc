@@ -11,10 +11,6 @@ resource cosmosaccount 'Microsoft.DocumentDB/databaseAccounts@2024-11-15' existi
     name: 'cosno-queue-${environmentShortName}-${locationShortName}-01'
 }
 
-resource submitFunctionApp 'Microsoft.Web/sites@2024-04-01' existing = {
-  name: 'func-submit-${environmentShortName}-${locationShortName}-01'
-}
-
 module vault 'br/public:avm/res/key-vault/vault:0.9.0' = {
   name: 'key-vault-queue-${environmentShortName}-${locationShortName}'
   params: {

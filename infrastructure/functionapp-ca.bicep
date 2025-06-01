@@ -52,6 +52,9 @@ module containerAppEnv 'br/public:avm/res/app/managed-environment:0.11.2' = {
       
     }
     internal: false
+    managedIdentities: {
+      systemAssigned: true
+    }
     zoneRedundant: false
     workloadProfiles: [
       {
@@ -124,6 +127,8 @@ resource functionsContainerApp 'Microsoft.App/containerApps@2024-10-02-preview' 
         enabled: true
         logLevel: 'debug'
         enableApiLogging: true
+        // dapr appId is used by the scope element of the dapr component definition.
+        appId: 'ca-submit-${environmentShortName}-${locationShortName}-01'
       }
       ingress: {
         external: true

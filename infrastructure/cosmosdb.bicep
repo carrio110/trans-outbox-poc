@@ -18,11 +18,11 @@ module databaseAccount 'br/public:avm/res/document-db/database-account:0.15.0' =
     enableFreeTier: true
     zoneRedundant: false
     managedIdentities: {
-      systemAssigned: false
+      systemAssigned: true
     }
     sqlDatabases: [
       {
-        name: 'cosmos-queue-${environmentShortName}-${locationShortName}-01'
+        name: 'cosmos-queue-state-${environmentShortName}-${locationShortName}-01'
         containers: [
           {
             name: 'cosco-queue-requests-${environmentShortName}-${locationShortName}-01'
@@ -34,5 +34,18 @@ module databaseAccount 'br/public:avm/res/document-db/database-account:0.15.0' =
         ]
       }
     ]
+  }
+}
+
+resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = {
+  name: 'kv-queue-${environmentShortName}-${locationShortName}-01'
+}
+
+resource cosmosDbAccountUriSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
+  name: 'cosmos-db-account-uri'
+  parent: keyVault
+  properties: {
+    value: databaseAccount.outputs.endpoint
+    contentType: 'application/text'
   }
 }
