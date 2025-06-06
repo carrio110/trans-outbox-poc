@@ -41,4 +41,6 @@ class AmpRequest {
             
         }   
     }
+
+    # [object[]] GetSubmittedRequests($CustomerId,UserId)
 }
