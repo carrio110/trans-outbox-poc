@@ -1,0 +1,12 @@
+{
+    "customerId": "bb10a527-700e-4e2f-b8fb-df683cc825d4",
+    "userId": "foo@bar.org",
+    "fulfilmentStatus": "new",
+    "isTest": true,
+    "sourceUi": "web",
+    "task": {
+        "upn": "new.employee@contoso.com",
+        "phoneNumber": "+441234567890",
+        "site": "UK-CA-01"
+    }
+}
