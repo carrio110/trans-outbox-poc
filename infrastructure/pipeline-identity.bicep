@@ -35,3 +35,5 @@ module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-id
     ]
   }
 }
+
+//test
