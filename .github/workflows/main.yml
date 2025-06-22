@@ -34,7 +34,7 @@ jobs:
           push: true
           tags: ${{ vars.LOGIN_SERVER }}/${{ vars.NAMESPACE }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}
           file: ./functionapp/Dockerfile
-          context: ./
+          context: ./functionapp
 
   deploy:
     runs-on: ubuntu-latest
