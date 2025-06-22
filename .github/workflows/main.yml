@@ -36,6 +36,12 @@ jobs:
           file: ./functionapp/Dockerfile
           context: ./
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+        id-token: write # Required for OIDC
+    steps:
       - name: Azure login
         uses: azure/login@v2
         with:
@@ -45,7 +51,7 @@ jobs:
 
       - name: 'Run Azure Functions Container Action'
         uses: Azure/functions-container-action@v1
-        id: fa
+        id: deploy-to-function-app
         with:
           app-name: ${{ vars.AZURE_FUNCTION_APP_NAME }}
           image: ${{ vars.LOGIN_SERVER }}/${{ vars.NAMESPACE }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}
