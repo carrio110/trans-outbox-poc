@@ -14,7 +14,8 @@ module registry 'br/public:avm/res/container-registry/registry:0.9.1' = {
   name: 'registryDeployment'
   params: {
     // Required parameters
-    name: 'cr-function-images-${environmentShortName}-${locationShortName}-01'
+    // ACR names may contain alpha numeric characters only and must be between 5 and 50 characters.
+    name: 'crcore${environmentShortName}${locationShortName}01'
     // Non-required parameters
     acrAdminUserEnabled: false
     acrSku: 'Basic'
@@ -23,27 +24,9 @@ module registry 'br/public:avm/res/container-registry/registry:0.9.1' = {
     exportPolicyStatus: 'enabled'
     location: location
     privateEndpoints: []
-    quarantinePolicyStatus: 'enabled'
+    quarantinePolicyStatus: 'disabled'
     replications: []
-        roleAssignments: [
-      {
-        name: guid(keyVaultAppSecretManagementRoleDefinitionId,functionContainerApp.name,guidSeed)
-        principalId: '<principalId>'
-        principalType: 'ServicePrincipal'
-        roleDefinitionIdOrName: 'Owner'
-      }
-      {
-        name: '<name>'
-        principalId: '<principalId>'
-        principalType: 'ServicePrincipal'
-        roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
-      }
-      {
-        principalId: '<principalId>'
-        principalType: 'ServicePrincipal'
-        roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
-      }
-    ]
+    roleAssignments: []
     softDeletePolicyDays: 7
     softDeletePolicyStatus: 'disabled'
     tags: {}
