@@ -33,7 +33,7 @@ jobs:
         with:
           push: true
           tags: ${{ vars.ACR_NAME }}/${{ vars.NAMESPACE }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}
-          file: ./Dockerfile
+          file: ./functionapp/Dockerfile
           context: ./
 
       - name: Azure login
