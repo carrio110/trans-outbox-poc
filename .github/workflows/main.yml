@@ -29,10 +29,10 @@ jobs:
           password: ${{ secrets.ACR_SP_CLIENT_SECRET }}
 
       - name: Build and push container image to registry
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ${{ vars.ACR_NAME }}/${{ vars.NAMESPACE }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}
+          tags: ${{ vars.LOGIN_SERVER }}/${{ vars.NAMESPACE }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}
           file: ./functionapp/Dockerfile
           context: ./
 
@@ -48,7 +48,7 @@ jobs:
         id: fa
         with:
           app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
-          image: ${{ vars.ACR_NAME }}/${{ vars.NAMESPACE }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}
+          image: ${{ vars.LOGIN_SERVER }}/${{ vars.NAMESPACE }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}
 
       - name: 'Published functionapp url'
         run: |
