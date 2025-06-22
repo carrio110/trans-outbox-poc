@@ -47,7 +47,7 @@ jobs:
         uses: Azure/functions-container-action@v1
         id: fa
         with:
-          app-name: ${{ vars.AZURE_CONTAINER_APP_NAME }}
+          app-name: ${{ vars.AZURE_FUNCTION_APP_NAME }}
           image: ${{ vars.LOGIN_SERVER }}/${{ vars.NAMESPACE }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}
 
       - name: 'Published functionapp url'
