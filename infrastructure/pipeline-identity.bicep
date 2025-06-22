@@ -30,7 +30,8 @@ module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-id
         audiences: [
           'api://AzureADTokenExchange'
         ]
-        subject: 'repo:${githubOrgName}/${githubRepoName}:${githubEnvironmentName}'
+        // repo:carrio110/trans-outbox-poc:environment:dev
+        subject: 'repo:${githubOrgName}/${githubRepoName}:environment:${githubEnvironmentName}'
       }
     ]
   }
