@@ -1,4 +1,6 @@
 using namespace System.Net
+using module .\AmpRequest.psm1
+
 
 # Input bindings are passed in via param block.
 param($Request, $TriggerMetadata)
