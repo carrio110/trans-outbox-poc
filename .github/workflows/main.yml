@@ -23,7 +23,8 @@ jobs:
       - name: Log in to container registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.LOGIN_SERVER }}
+          registry: crcoredevuks01.azurecr.io
+          # service principal generated using shell script located in infrastructure/scripts dir.
           username: ${{ secrets.ACR_SP_CLIENT_ID }}
           password: ${{ secrets.ACR_SP_CLIENT_SECRET }}
 
