@@ -7,7 +7,7 @@ param($Request, $TriggerMetadata)
 
 $newAmpRequest = [AmpRequest]::new()
 
-$newAmpRequest.Submit($body)
+$newAmpRequest.Submit($Request.Body)
 
 <#
 # Write to the Azure Functions log stream.
