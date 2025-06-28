@@ -43,6 +43,7 @@ module containerAppEnv 'br/public:avm/res/app/managed-environment:0.11.2' = {
     // Required parameters
     name: 'cae-submit-${environmentShortName}-${locationShortName}-01'
     // Non-required parameters
+    publicNetworkAccess: 'Enabled'
     appLogsConfiguration: {
       destination: 'log-analytics'
       logAnalyticsConfiguration: {

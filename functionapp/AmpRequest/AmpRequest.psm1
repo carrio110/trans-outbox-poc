@@ -39,7 +39,7 @@ class AmpRequest {
         finally {
             <#Do this after the try block regardless of whether an exception occurred or not#>
             
-        }   
+        }
     }
 
     # [object[]] GetSubmittedRequests($CustomerId,UserId)

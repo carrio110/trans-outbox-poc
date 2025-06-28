@@ -20,7 +20,7 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
   }
   properties: {
     daprConfig: {
-      enabled: true
+      enabled: false
       logLevel: 'debug'
       enableApiLogging: true
       // dapr appId is used by the scope element of the dapr component definition.
@@ -45,10 +45,12 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
 resource functionAppConfig 'Microsoft.Web/sites/config@2024-04-01' = {
   parent: functionApp
   name: 'web'
-  location: 'UK South'
+  // location: 'UK South'
   properties: {
     linuxFxVersion: 'DOCKER|mcr.microsoft.com/azure-functions/powershell:4-powershell7.4'
     functionAppScaleLimit: 10
     minimumElasticInstanceCount: 0
+
   }
+
 }
