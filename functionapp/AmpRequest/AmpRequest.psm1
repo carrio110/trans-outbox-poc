@@ -29,11 +29,15 @@ class AmpRequest {
                 -ContentType 'application/json'
                 -Uri 'http://localhost:3601/v1.0/state/statestore/transaction'
                 -Body $Request
-                -ErrorAction stop       
+                -ErrorAction stop
+            
+            Write-Host "The request has been successfully submitted to the queue."
+
             return $response.content
         }
         catch {
             $response = "An error occurred while submitting the request to the queue."
+            Write-Host "The request submission failed."
             return $response
         }
         finally {
