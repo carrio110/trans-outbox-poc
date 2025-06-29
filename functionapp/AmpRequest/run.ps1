@@ -5,14 +5,11 @@ using module .\AmpRequest.psm1
 # Input bindings are passed in via param block.
 param($Request, $TriggerMetadata)
 
-<#
 $newAmpRequest = [AmpRequest]::new()
 
 $newAmpRequest.Submit($Request.Body)
 
 Write-Host "PowerShell HTTP trigger function processed a request."
-
-#>
 
 # Write to the Azure Functions log stream.
 Write-Host "PowerShell HTTP trigger function processed a request."

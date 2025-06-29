@@ -1,16 +1,16 @@
 apiVersion: dapr.io/v1alpha1
 kind: Component
 metadata:
-  name: <NAME>
+  name: dapr-conf-submit-queue-state
 spec:
   type: state.azure.cosmosdb
   version: v1
   metadata:
   - name: url
-    value: <REPLACE-WITH-URL>
-  - name: masterKey
-    value: <REPLACE-WITH-MASTER-KEY>
+    value: secretRef: cosmos-db-account-uri
   - name: database
-    value: <REPLACE-WITH-DATABASE>
+    value: cosmos-queue-state-dev-uks-01
+  - name: collection
+    value: cosco-queue-requests-dev-uks-01
   - name: collection
     value: <REPLACE-WITH-COLLECTION>

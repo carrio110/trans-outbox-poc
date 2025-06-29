@@ -4,6 +4,9 @@ param location string = 'uksouth'
 @description('The software development environment to which the resource will be deployed.')
 param environmentShortName string = 'dev'
 
+@description('Your IP address. Used to allow access to the resource on the network ACL.')
+param myIpAddress string = '[Your IP address here]'
+
 @description('')
 var locationShortName = substring(location,0,3)
 
@@ -17,6 +20,18 @@ module databaseAccount 'br/public:avm/res/document-db/database-account:0.15.0' =
     databaseAccountOfferType: 'Standard'
     enableFreeTier: true
     zoneRedundant: false
+    networkRestrictions: {
+      networkAclBypass: 'AzureServices'
+      publicNetworkAccess: 'Enabled'
+      ipRules: [
+        myIpAddress
+        // Azure Portal Middleware IPs:
+        '4.210.172.107'
+        '13.88.56.148'
+        '13.91.105.215'
+        '40.91.218.243'
+      ]
+    }
     managedIdentities: {
       systemAssigned: true
     }
