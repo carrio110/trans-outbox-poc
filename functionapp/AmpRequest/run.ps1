@@ -1,34 +1,57 @@
 using namespace System.Net
 using module .\AmpRequest.psm1
 
-
 # Input bindings are passed in via param block.
 param($Request, $TriggerMetadata)
 
-$newAmpRequest = [AmpRequest]::new()
+if ($Request.Method -eq 'POST') {
+    
+    # In REST terms, this is the create standard method where we create a new resource:
+    try {
+        # Ensure the request body is a hashtable
+        if (-not ($Request.Body -is [hashtable])) {
+            throw "Request body must be a hashtable."
+        }
+        $newAmpRequest = [AmpRequest]::new($Request.Body)
+        Write-Host "Successfully constructed the AMP request object fom the request body. You can now submit it to the queue using the Submit method."
+        Write-Debug "$($newAmpRequest)"
+    } catch {
+        Write-Error $_.Exception.Message
+        Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
+            StatusCode = [HttpStatusCode]::BadRequest
+            # It is ok to return brief summary of the violated business rules here, but don't leak sensitive information.
+            # e.g. "Schduled Fulfilment DateTime cannot be in the past."
+            Body = $_.Exception.Message
+        })
+        return
+    }
 
-$newAmpRequest.Submit($Request.Body)
-
-Write-Host "PowerShell HTTP trigger function processed a request."
+     # ... and this is the _side effect_ of the create standard method:
+    try {
+        $result = $newAmpRequest.Submit()
+        Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
+            StatusCode = [HttpStatusCode]::Created
+            Body = $result
+        })
+    }
+    catch {
+        Write-Error $_.Exception.Message
+        Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
+            StatusCode = [HttpStatusCode]::InternalServerError
+            # In production we should not include the full exception message. Used here for demonstration purposes.
+            Body = $_.Exception.Message
+        })
+    }
+    Write-Host "PowerShell HTTP trigger function processed a POST request."
+}   
 
 # Write to the Azure Functions log stream.
 Write-Host "PowerShell HTTP trigger function processed a request."
 
-# Interact with query parameters or the body of the request.
-$name = $Request.Query.Name
-if (-not $name) {
-    $name = $Request.Body.Name
-}
-
-$body = "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-if ($name) {
-    $body = "Hello, $name. This HTTP triggered function executed successfully."
-}
-
-
 # Associate values to output bindings by calling 'Push-OutputBinding'.
 
+<#
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
     StatusCode = [HttpStatusCode]::OK
     Body = $body
-})
+#>
