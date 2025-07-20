@@ -69,14 +69,3 @@ resource daprCosmosDbComponent 'Microsoft.App/managedEnvironments/daprComponents
     version: '1.0'
   }
 }
-
-/*
-  - name: outboxPublishPubsub # Required
-    value: "mypubsub"
-  - name: outboxPublishTopic # Required
-    value: "newOrder"
-  - name: outboxPubsub # Optional
-    value: "myOutboxPubsub"
-  - name: outboxDiscardWhenMissingState #Optional. Defaults to false
-    value: false
-*/

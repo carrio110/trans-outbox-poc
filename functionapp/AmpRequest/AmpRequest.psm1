@@ -6,10 +6,12 @@ using namespace Microsoft.Extensions.Hosting
 
 class AmpRequest {
     # Class Properties
-    [string]    $CustomerId
+    [string]    $Id
+    [string]    $UserId
+    [string]    $TenantId
+    [datetime]  $CreatedDateTime
     [datetime]  $ScheduledFulfilmentDateTime
     [object]    $Task
-    [string]    $Owner
     [string]    $SumbmissionInterface
     [string]    $Status
     [bool]      $IsTest
@@ -19,6 +21,21 @@ class AmpRequest {
     
     # Convenience constructor from hashtable
     AmpRequest([hashtable]$Properties) { $this.Init($Properties) }
+
+    # Shared initializer method
+    [void] Init([hashtable]$Properties) {
+        $this.Id = (New-Guid).Guid
+        $this.UserId                        = $Properties.UserId
+        $this.TenantId                      = $Properties.TenantId
+        $this.CreatedDateTime               = Get-date -format u
+        $this.ScheduledFulfilmentDateTime   = $Properties.ScheduledFulfilmentDateTime
+        $this.Task                          = $Properties.Task
+        $this.SumbmissionInterface          = $Properties.SumbmissionInterface
+        $this.Status                        = 'New'
+        $this.IsTest                        = $Properties.IsTest
+
+        # Additional initialization logic can go here if needed
+    }
 
     # Method to submit the request to the queue
     [object] Submit([object]$Request) {

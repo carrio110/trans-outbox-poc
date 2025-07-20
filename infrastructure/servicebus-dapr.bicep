@@ -11,9 +11,11 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2024-10-02-p
   name: 'cae-submit-${environmentShortName}-${locationShortName}-01'
 }
 
+/*
 resource functionContainerApp 'Microsoft.App/containerApps@2024-10-02-preview' existing = {
   name: 'ca-submit-${environmentShortName}-${locationShortName}-01'
 }
+*/
 
 resource functionApp 'Microsoft.Web/sites@2024-04-01' existing = {
   name: 'func-submit-${environmentShortName}-${locationShortName}-01'
@@ -33,7 +35,7 @@ resource daprServiceBusStateComponent 'Microsoft.App/managedEnvironments/daprCom
       }
     ]
     scopes: [
-      functionContainerApp.name
+      // functionContainerApp.name
       functionApp.name
     ]
     secretStoreComponent: 'dapr-conf-submit-key-vault'
@@ -56,7 +58,7 @@ resource daprCosmosDbComponent 'Microsoft.App/managedEnvironments/daprComponents
       }
     ]
     scopes: [
-      functionContainerApp.name
+      // functionContainerApp.name
       functionApp.name
     ]
     secretStoreComponent: 'dapr-conf-submit-key-vault'

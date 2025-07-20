@@ -1,9 +1,10 @@
 {
-    "customerId": "bb10a527-700e-4e2f-b8fb-df683cc825d4",
+    "TenantId": "bb10a527-700e-4e2f-b8fb-df683cc825d4",
     "userId": "foo@bar.org",
     "fulfilmentStatus": "new",
+    "ScheduledFulfilmentDateTime": "2023-10-01T12:00:00Z",
     "isTest": true,
-    "sourceUi": "web",
+    "SumbmissionInterface": "web",
     "task": {
         "upn": "new.employee@contoso.com",
         "phoneNumber": "+441234567890",

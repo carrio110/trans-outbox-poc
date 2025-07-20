@@ -6,6 +6,7 @@
     "FUNCTIONS_WORKER_RUNTIME": "powershell",
     "ConfigStore": "dapr-conf-submit-app-config",
     "StateStoreName": "dapr-conf-submit-queue-state",
-    "KafkaBindingName": "sample-topic"
+    "SecretStoreName": "dapr-conf-submit-key-vault"
+    
   }
 }
