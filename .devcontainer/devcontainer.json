@@ -1,0 +1,32 @@
+{
+  "name": "Azure Functions PowerShell + Dapr",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "workspaceFolder": "/workspace",
+  "mounts": [
+    "source=${localWorkspaceFolder}/functionapp,target=/workspace/functionapp,type=bind",
+    "source=${localWorkspaceFolder}/components,target=/workspace/components,type=bind"
+  ],
+  "postCreateCommand": "dapr --version && func --version",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-azurefunctions",
+        "ms-vscode.PowerShell",
+        "ms-azuretools.vscode-dapr"
+      ],
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      }
+    }
+  },
+  "features": {
+    // Install the Dapr CLI
+    "ghcr.io/dapr/cli/dapr-cli:0": {},
+    // Enable Docker (via Docker-in-Docker)
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    // Alternatively, use Docker-outside-of-Docker (uses Docker in the host)
+    //"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+  }
+}

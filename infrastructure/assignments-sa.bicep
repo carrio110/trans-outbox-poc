@@ -14,8 +14,8 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2024-01-01' existing 
   name: 'st${locationShortName}submitapifunc${environmentShortName}01'
 }
 
-resource functionContainerApp 'Microsoft.App/containerApps@2024-10-02-preview' existing = {
-  name: 'ca-submit-${environmentShortName}-${locationShortName}-01'
+resource functionContainerApp 'Microsoft.Web/sites@2024-04-01' existing = {
+  name: 'func-submit-${environmentShortName}-${locationShortName}-01'
 }
 
 var storageBlobDataOwnerRoleDefinitionId  = 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b' // --> Storage Blob Data Owner (Required)
