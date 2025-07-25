@@ -10,6 +10,8 @@ if ($Request.Method -eq 'POST') {
     try {
         # Ensure the request body is a hashtable
         if (-not ($Request.Body -is [hashtable])) {
+            Write-Host $Request.Body | Get-Member
+            Write-Host $Request.Body | Out-String
             throw "Request body must be a hashtable."
         }
         $newAmpRequest = [AmpRequest]::new($Request.Body)
