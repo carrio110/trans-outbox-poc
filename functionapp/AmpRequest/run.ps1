@@ -8,13 +8,12 @@ if ($Request.Method -eq 'POST') {
     
     # In REST terms, this is the create standard method where we create a new resource:
     try {
-        # Ensure the request body is a hashtable
-        if (-not ($Request.Body -is [hashtable])) {
-            Write-Host $Request.Body | Get-Member
+        # Ensure the request body is a json
+        if (-not ($Request.Body -is [json])) {
             Write-Host $Request.Body | Out-String
-            throw "Request body must be a hashtable."
+            throw "Request body must be a json."
         }
-        $newAmpRequest = [AmpRequest]::new($Request.Body)
+        $newAmpRequest = [AmpRequest]::new(($Request.Body | ConvertFrom-Json))
         Write-Host "Successfully constructed the AMP request object fom the request body. You can now submit it to the queue using the Submit method."
         Write-Debug "$($newAmpRequest)"
     } catch {
