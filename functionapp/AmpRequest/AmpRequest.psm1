@@ -123,11 +123,26 @@ class AmpRequest {
 
         $this.SubmissionDateTime = Get-Date -format u # Update the submission date time to now
 
+        $transOutboxBody =
+@"
+{
+  "operations": [
+    {
+      "operation": "upsert",
+      "request": {
+        "key": "$($this.Id)",
+        "value": $($this | ConvertTo-Json -Depth 10)
+      }
+    }
+  ]
+}
+"@
+
         $RestParams = @{
             Method      = 'Post'
             ContentType = 'application/json'
             Uri         = "http://localhost:$($daprHttpPort)/v1.0/state/$($stateStoreName)/transaction"
-            Body        = $this | ConvertTo-Json -Depth 10
+            Body        = $transOutboxBody
             ErrorAction = 'Stop'
         }
 
