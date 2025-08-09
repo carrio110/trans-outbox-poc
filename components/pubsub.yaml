@@ -1,17 +1,11 @@
 apiVersion: dapr.io/v1alpha1
 kind: Component
 metadata:
-  name: dapr-conf-submit-queue-transoutbox-pubsub
+  name: trans-outbox-pubsub
 spec:
   type: pubsub.redis
   metadata:
-  - name: namespaceName
-    # Required when using Azure Authentication.
-    # Must be a fully-qualified domain name
-    value: "sbns-queue-dev-uks-02.servicebus.windows.net"
-  - name: azureTenantId
-    secretKeyRef:
-      name: azure-tenant-id
-      key: azure-tenant-id
-auth:
-  secretStore: dapr-conf-submit-key-vault
+  - name: redisHost
+    value: localhost:6379
+  - name: redisPassword
+    value: ""

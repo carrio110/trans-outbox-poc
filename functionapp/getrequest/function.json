@@ -6,9 +6,9 @@
       "direction": "in",
       "name": "Request",
       "methods": [
-        "get",
-        "post"
-      ]
+        "get"
+      ],
+      "route": "amprequest/{id}"
     },
     {
       "type": "http",

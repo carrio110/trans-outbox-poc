@@ -41,7 +41,47 @@ if ($Request.Method -eq 'POST') {
         })
     }
     Write-Host "PowerShell HTTP trigger function processed a POST request."
-}   
+}
+elseif ($Request.Method -eq 'GET') {
+    # In REST terms, this is the read standard method where we either retrieve a specific resource or return a collection of resources:
+    $requestId = $Request.id
+    if (-not $requestId) {
+        Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
+            StatusCode = [HttpStatusCode]::BadRequest
+            Body = "Missing 'id' query parameter."
+        })
+        return
+    }
+
+    try {
+        $ampRequest = [AmpRequest]::GetRequestById($requestId)
+        if ($null -eq $ampRequest) {
+            Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
+                StatusCode = [HttpStatusCode]::NotFound
+                Body = "Request with ID '$requestId' not found."
+            })
+        } else {
+            Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
+                StatusCode = [HttpStatusCode]::OK
+                Body = $ampRequest
+            })
+        }
+    }
+    catch {
+        Write-Error $_.Exception.Message
+        Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
+            StatusCode = [HttpStatusCode]::InternalServerError
+            Body = $_.Exception.Message
+        })
+    }
+    Write-Host "PowerShell HTTP trigger function processed a GET request."
+}
+else {
+    Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
+        StatusCode = [HttpStatusCode]::MethodNotAllowed
+        Body = "Method not allowed. Only GET and POST are supported."
+    })
+}
 
 # Write to the Azure Functions log stream.
 Write-Host "PowerShell HTTP trigger function processed a request."
